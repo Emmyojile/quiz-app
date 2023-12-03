@@ -1,3 +1,5 @@
+import Button from "@/components/Button";
+import DropOptions from "@/components/DropDownOptions";
 import Image from "next/image";
 
 export default function Home() {
@@ -7,7 +9,7 @@ export default function Home() {
         Welcome to trivia Quiz
       </h1>
 
-      <section className="p-10 my-10 rounded-lg shadow-xl w-[65%]">
+      <section className="p-10 my-10 rounded-lg shadow-xl w-[70%]">
         <div>
           <label
             htmlFor="first_name"
@@ -25,6 +27,10 @@ export default function Home() {
             placeholder="John"
             required
           />
+        </div>
+        <div className="flex flex-col justify-center items-center">
+        <DropOptions/>
+        <Button/>
         </div>
       </section>
     </section>
