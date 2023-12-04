@@ -5,7 +5,7 @@ import useQuiz from "./store";
 
 export default function Home() {
   const quizConfig = useQuiz(state=>state.config);
-  console.log(quizConfig);
+  console.log(quizConfig, "here");
   
   return (
     <section className="flex flex-col justify-center items-center my-10">
