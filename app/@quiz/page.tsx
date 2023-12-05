@@ -1,6 +1,34 @@
-import React from 'react'
+"use client"
+import React, { useEffect, useState } from 'react'
+import useQuiz from '../store'
+import { fetchQuestions } from "@/utils";
+
 
 const quiz = () => {
+  const [questions, setQuestions] = useState([])
+  const [answer, setAnswer] = useState('')
+  const [loading, setLoading] = useState(false)
+  const config = useQuiz((state)=>state.config)
+  const setScore = useQuiz((state)=>state.addScore)
+
+  useEffect(()=>{
+    const getQuestions = async () => {
+      
+        const {results} = await fetchQuestions({
+          amount: config.numberOfQuestion,
+          category: config.category.id,
+          difficulty: config.level,
+          type: config.type,
+        });
+        console.log(results);
+        
+        // setQuestions(results);
+      
+      
+    };
+    getQuestions()
+  },[])
+// `https://opentdb.com/api.php?amount=${config.numberOfQuestion}&category=${config.category.id}&difficulty=${config.level}&type=${config.type}`
   return (
     <section className="flex flex-col justify-center items-center mt-10">
         <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Question <span className="text-blue-600 dark:text-blue-500">#1</span></h1>

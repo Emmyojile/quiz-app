@@ -23,7 +23,7 @@ const useQuiz = create((set) => ({
   addNumberOfQuestions: (count:number) => set((state) => ({ config: {...state.config, numberOfQuestion:count} })),
   addCategory: (id:number,name:string) => set((state) => ({ config: {...state.config, category:{id:id,name:name}} })),
   addStatus: (status:string) => set((state) => ({ config: {...state.config, status:status} })),
-  addScore: (score:string) => set((state) => ({ config: {...state.config, score:score} })),
+  addScore: () => set((state) => ({ config: {...state.config, score:state.config.score+1} })),
   addType: (type:string) => set((state) => ({ config: {...state.config, type:type} })),
 }))
 
