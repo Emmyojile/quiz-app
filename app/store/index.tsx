@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export type configType={
+export interface configType{
     numberOfQuestion: number,
     category: {id:number,name:string},
     level:string,

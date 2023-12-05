@@ -5,6 +5,7 @@ import useQuiz from "./store";
 
 export default function Home() {
   const quizConfig = useQuiz(state=>state.config);
+  const addNumberOfQuestions = useQuiz(state=>state.addNumberOfQuestions);
   console.log(quizConfig, "here");
   
   return (
@@ -22,6 +23,7 @@ export default function Home() {
             Number Of Questions
           </label>
           <input
+            onChange={(e)=>addNumberOfQuestions(e.target.value)}
             type="number"
             id="first_name"
             defaultValue={10}
