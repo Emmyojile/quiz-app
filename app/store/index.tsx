@@ -24,6 +24,7 @@ const useQuiz = create((set) => ({
   addCategory: (id:number,name:string) => set((state) => ({ config: {...state.config, category:{id:id,name:name}} })),
   addStatus: (status:string) => set((state) => ({ config: {...state.config, status:status} })),
   addScore: (score:string) => set((state) => ({ config: {...state.config, score:score} })),
+  addType: (type:string) => set((state) => ({ config: {...state.config, type:type} })),
 }))
 
 export default useQuiz;
