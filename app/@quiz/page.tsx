@@ -21,14 +21,19 @@ const quiz = () => {
           type: config.type,
         });
         console.log(results);
+        let shuffledResults = results.map((e)=> {
+          let value = [...e.incorrect_answers, e.correct_answer].map((value)=>({value, sort:Math.random()})).sort((a,b)=> a.sort -b.sort).map(({value}) =>value);
+          e.answers = [...value];
+          return e;
+        })
+        console.log(shuffledResults);
         
         // setQuestions(results);
-      
       
     };
     getQuestions()
   },[])
-// `https://opentdb.com/api.php?amount=${config.numberOfQuestion}&category=${config.category.id}&difficulty=${config.level}&type=${config.type}`
+
   return (
     <section className="flex flex-col justify-center items-center mt-10">
         <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Question <span className="text-blue-600 dark:text-blue-500">#1</span></h1>
