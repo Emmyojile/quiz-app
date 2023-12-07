@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import useQuiz from "../store";
 import { fetchQuestions } from "@/utils";
+import { cn } from "@/lib/utils";
 
 const quiz = () => {
   const [questions, setQuestions] = useState<any>([]);
@@ -35,7 +36,7 @@ const quiz = () => {
   useEffect(() => {
     const getQuestions = async () => {
       setLoading(true);
-  
+
       try {
         const { results } = await fetchQuestions({
           amount: config.numberOfQuestion,
@@ -43,7 +44,7 @@ const quiz = () => {
           difficulty: config.level,
           type: config.type,
         });
-  
+
         if (results) {
           let shuffledResults = results.map((e) => {
             let value = [...e.incorrect_answers, e.correct_answer]
@@ -53,23 +54,36 @@ const quiz = () => {
             e.answers = [...value];
             return e;
           });
-  
-          console.log('Shuffled Results:', shuffledResults);
+
+          console.log("Shuffled Results:", shuffledResults);
           setQuestions([...shuffledResults]);
         } else {
-          console.error('Results are undefined');
+          console.error("Results are undefined");
         }
       } catch (error) {
-        console.error('Error getting questions:', error.message);
+        console.error("Error getting questions:", error.message);
       } finally {
         setLoading(false);
       }
     };
-  
+
     getQuestions();
   }, [config.numberOfQuestion, config.category.id, config.level, config.type]);
-  
 
+  const handleNext = () => {
+    let remainingQuestions = [...questions]
+    remainingQuestions = remainingQuestions.shift()
+    setQuestions([...remainingQuestions])
+    setAnswer('')
+  }
+
+  const checkAnswer = (answer:string) => {
+    if(answer === questions[0].correct_answer)
+    {
+      setScore(0)
+    }
+    setAnswer(questions[0].correct_answer)
+  }
   return (
     <section className="flex flex-col justify-center items-center mt-10">
       <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
@@ -78,19 +92,21 @@ const quiz = () => {
       <p className="text-2xl">Score : 0</p>
       <section className="shadow-2xl my-10 p-10 w-[90%] rounded-lg flex flex-col justify-center items-center shadow-blue-200">
         <h4 className="mb-4 text-4xl font-extrabold leading-none tracking-tight  md:text-5xl lg:text-5xl text-blue-600 dark:text-blue-500">
-          
-        {questions?.[0]?.question || 'Loading...'}
-          
+          {questions?.[0]?.question || "Loading..."}
         </h4>
 
         <div className="flex justify-evenly items-center my-10 flex-wrap w-[90%] ">
-        {questions?.[0]?.answers?.map((answer, index) => (
-    <button key={index} type="button" className="question-btn">
-      {answer}
-    </button>
-  ))}
+          {questions?.[0]?.answers?.map((ans, index) => (
+            <button onClick={()=>checkAnswer(ans)} key={ans} type="button" className={cn('question-btn',
+            {
+              "bg-red-900": ans !== answer
+            }
+            )}>
+              {ans}
+            </button>
+          ))}
         </div>
-        <button type="button" className="next-btn">
+        <button onClick={()=>handleNext()} type="button" className="next-btn">
           Next
         </button>
       </section>
