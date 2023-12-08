@@ -71,19 +71,18 @@ const quiz = () => {
   }, [config.numberOfQuestion, config.category.id, config.level, config.type]);
 
   const handleNext = () => {
-    let remainingQuestions = [...questions]
-    remainingQuestions = remainingQuestions.shift()
-    setQuestions([...remainingQuestions])
-    setAnswer('')
-  }
+    let remainingQuestions = [...questions];
+    remainingQuestions = remainingQuestions.shift();
+    setQuestions([...remainingQuestions]);
+    setAnswer("");
+  };
 
-  const checkAnswer = (answer:string) => {
-    if(answer === questions[0].correct_answer)
-    {
-      setScore(0)
+  const checkAnswer = (answer: string) => {
+    if (answer === questions[0].correct_answer) {
+      setScore(0);
     }
-    setAnswer(questions[0].correct_answer)
-  }
+    setAnswer(questions[0].correct_answer);
+  };
   return (
     <section className="flex flex-col justify-center items-center mt-10">
       <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
@@ -97,16 +96,19 @@ const quiz = () => {
 
         <div className="flex justify-evenly items-center my-10 flex-wrap w-[90%] ">
           {questions?.[0]?.answers?.map((ans, index) => (
-            <button onClick={()=>checkAnswer(ans)} key={ans} type="button" className={cn('question-btn',
-            {
-              "bg-red-900": ans !== answer
-            }
-            )}>
+            <button
+              onClick={() => checkAnswer(ans)}
+              key={ans}
+              type="button"
+              className={cn("w-[33%] py-3.5 px-5 my-4 mb-2 mr-2 text-lg font-medium text-gray-900 focus:outline-none bg-white rounded-lg border-0 shadow-blue-200 shadow-2xl hover:bg-blue-600 hover:text-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700", {
+                "bg-red-900": ans !== questions[0]?.correct_answer,
+              })}
+            >
               {ans}
             </button>
           ))}
         </div>
-        <button onClick={()=>handleNext()} type="button" className="next-btn">
+        <button onClick={() => handleNext()} type="button" className="next-btn">
           Next
         </button>
       </section>
