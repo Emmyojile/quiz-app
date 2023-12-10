@@ -102,6 +102,7 @@ const quiz = () => {
               type="button"
               className={cn("w-[33%] py-3.5 px-5 my-4 mb-2 mr-2 text-lg font-medium text-gray-900 focus:outline-none bg-white rounded-lg border-0 shadow-blue-200 shadow-2xl hover:bg-blue-600 hover:text-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700", {
                 "bg-red-900": ans !== questions[0]?.correct_answer,
+                "text-gray-900": questions[0]?.correct_answer,
               })}
             >
               {ans}
