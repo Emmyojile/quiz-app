@@ -9,7 +9,7 @@ const quiz = () => {
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
   const config = useQuiz((state) => state.config);
-  const setScore = useQuiz((state) => state.addScore);
+  const addScore = useQuiz((state) => state.addScore);
 
   // useEffect(()=>{
   //   const getQuestions = async () => {
@@ -72,23 +72,26 @@ const quiz = () => {
 
   const handleNext = () => {
     let remainingQuestions = [...questions];
-    remainingQuestions = remainingQuestions.shift();
+     remainingQuestions.shift();
     setQuestions([...remainingQuestions]);
     setAnswer("");
   };
 
   const checkAnswer = (answer: string) => {
     if (answer === questions[0].correct_answer) {
-      setScore(0);
+      addScore(0);
     }
     setAnswer(questions[0].correct_answer);
   };
   return (
     <section className="flex flex-col justify-center items-center mt-10">
       <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-        Question <span className="text-blue-600 dark:text-blue-500">#1</span>
+        Question Number {
+          questions?.length ? 
+          <span className="text-blue-600 dark:text-blue-500">#{config.numberOfQuestions - questions?.length + 1}</span>:null
+          }
       </h1>
-      <p className="text-2xl">Score : 0</p>
+      <p className="text-2xl">Score : {config.score}</p>
       <section className="shadow-2xl my-10 p-10 w-[90%] rounded-lg flex flex-col justify-center items-center shadow-blue-200">
         <h4 className="mb-4 text-4xl font-extrabold leading-none tracking-tight  md:text-5xl lg:text-5xl text-blue-600 dark:text-blue-500">
           {questions?.[0]?.question || "Loading..."}
@@ -102,16 +105,22 @@ const quiz = () => {
               type="button"
               className={cn("w-[33%] py-3.5 px-5 my-4 mb-2 mr-2 text-lg font-medium text-gray-900 focus:outline-none bg-white rounded-lg border-0 shadow-blue-200 shadow-2xl hover:bg-blue-600 hover:text-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700", {
                 "bg-red-900": ans !== questions[0]?.correct_answer,
-                "text-gray-900": questions[0]?.correct_answer,
+                "bg-blue-700": ans === questions[0]?.correct_answer,
+                "hover:bg-red-900": ans !== questions[0]?.correct_answer,
+                "hover:bg-blue-700": ans === questions[0]?.correct_answer,
+                "text-gray-100": questions[0]?.correct_answer,
               })}
             >
               {ans}
             </button>
           ))}
         </div>
-        <button onClick={() => handleNext()} type="button" className="next-btn">
+        {
+          questions.length && 
+          <button onClick={() => handleNext()} type="button" className="next-btn">
           Next
         </button>
+        }
       </section>
     </section>
   );
